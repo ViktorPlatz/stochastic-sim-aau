@@ -7,3 +7,7 @@ endfunction()
 
 add_stochastic_test(ReactionTests ReactionTests.cpp)
 add_stochastic_test(SpeciesTests SpeciesTests.cpp)
+add_stochastic_test(GraphTests GraphTests.cpp)
+add_stochastic_test(PlotSimulationTests PlotSimulationTests.cpp)
+add_stochastic_test(SimulatorTests SimulatorTests.cpp)
+add_stochastic_test(SymbolTableTests SymbolTableTests.cpp)
