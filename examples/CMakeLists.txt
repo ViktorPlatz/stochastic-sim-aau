@@ -12,7 +12,6 @@ add_custom_executable(seihrThreaded seihrThreaded.cpp)
 add_custom_executable(seihrFast seihrFast.cpp)
 
 add_custom_executable(CircadianRhythm CircadianRhythm.cpp)
-add_custom_executable(PlotExample PlotExample.cpp)
 add_custom_executable(ABCExample ABCExample.cpp)
 
 
