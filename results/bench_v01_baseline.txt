@@ -1,0 +1,13 @@
+Run on (16 X 3194 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x8)
+  L1 Instruction 32 KiB (x8)
+  L2 Unified 512 KiB (x8)
+  L3 Unified 16384 KiB (x1)
+--------------------------------------------------------------------------------
+Benchmark                                      Time             CPU   Iterations
+--------------------------------------------------------------------------------
+Single Simulation/10000                     17.7 ms         17.7 ms           37
+Concurrent Simulations/10000/5               567 ms          562 ms            1
+Fast Concurrent Simulations/10000/100       2209 ms          953 ms            1
+Fast Single Simulation/10000                53.2 ms         53.1 ms           10
