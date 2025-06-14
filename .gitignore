@@ -36,3 +36,7 @@ cmake-build-*/
 
 # Clion / VScode
 .idea/
+
+# Output directories
+output/
+/include/matplotlibcpp.h
