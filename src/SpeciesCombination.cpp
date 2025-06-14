@@ -2,6 +2,7 @@
 #include "Species.hpp"
 #include <memory>
 #include <vector>
+#include <iomanip>
 
 namespace stochastic {
 
@@ -31,15 +32,36 @@ namespace stochastic {
     }
 
     std::ostream& operator<<(std::ostream& os, const SpeciesCombination& sc) {
-        os << "SpeciesCombination: ";
-        for (const auto& species : sc.speciesList) {
-            os << species.getName() << " ";
+        const auto& speciesList = sc.getSpeciesList();
+        for (size_t i = 0; i < speciesList.size(); ++i) {
+            os << speciesList[i].getName();
+            if (i != speciesList.size() - 1) {
+                os << " + ";
+            }
         }
         return os;
     }
 
-    SpeciesCombination::SpeciesCombination() = default;
-    SpeciesCombination::~SpeciesCombination() = default;
+    bool SpeciesCombination::operator==(const SpeciesCombination& other) const {
+        if (speciesList.size() != other.speciesList.size()) {
+            return false;
+        }
+        for (size_t i = 0; i < speciesList.size(); ++i) {
+            if (!(speciesList[i] == other.speciesList[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
 
+    SpeciesCombination::SpeciesCombination() = default;
+
+    SpeciesCombination::SpeciesCombination(const Species& species) {
+        speciesList.push_back(species);
+    }
+
+    const std::vector<Species>& SpeciesCombination::getSpeciesList() const {
+        return speciesList;
+    }
 
 }

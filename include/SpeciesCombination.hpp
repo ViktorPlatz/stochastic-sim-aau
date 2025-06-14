@@ -18,8 +18,9 @@ namespace stochastic {
         friend std::ostream& operator<<(std::ostream& os, const SpeciesCombination& sc);
     public:
         SpeciesCombination();
-        ~SpeciesCombination();
-
+        SpeciesCombination(const Species& species);
+        bool operator==(const SpeciesCombination& other) const;
+        const std::vector<Species>& getSpeciesList() const;
     };
 
     SpeciesCombination operator+(const Species& lhs, const Species& rhs);
