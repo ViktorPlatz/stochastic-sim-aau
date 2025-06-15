@@ -37,3 +37,24 @@ This project was developed to meet the following objectives defined in the *Sele
 - ✅ Multi-core parallel simulation support
 - ✅ Unit tests for various components (Symbol Table, Pretty-printing, etc.)
 - ✅ Benchmarking and performance comparison between single- and multi-threaded runs
+
+## Output Visualization
+
+The simulator produces two types of visual output:
+
+- A **reaction network graph** showing the structure of the system (species and reactions), exported as a `.dot` file and rendered with Graphviz (Done manually).
+- A **trajectory plot** showing how species populations evolve over time, generated using `matplotlibcpp`.
+
+Below is an example of both visualizations from the same simulation:
+<div align="center">
+  <table>
+    <tr>
+      <td><img src="https://github.com/user-attachments/assets/ff84842e-876c-4ea4-8454-3bbdf6eaa507" alt="Reaction Network DOT Graph" width="200"/></td>
+      <td><img src="https://github.com/user-attachments/assets/71316c6e-b088-4eb0-8c3c-b650b838cced" alt="Trajectory Plot" width="700"/></td>
+    </tr>
+    <tr>
+      <td align="center"><em>Reaction Network Graph</em></td>
+      <td align="center"><em>Simulation Trajectory</em></td>
+    </tr>
+  </table>
+</div>
