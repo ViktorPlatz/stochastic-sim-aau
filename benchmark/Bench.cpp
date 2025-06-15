@@ -1,10 +1,6 @@
 #include <benchmark/benchmark.h>
-
-#include <SimulationResult.hpp>
 #include <iostream>
-
-#include "ExampleSimulations.hpp"
-#include "Simulator.hpp"
+#include "StochasticLib.hpp"
 
 #define END_TIME 100
 

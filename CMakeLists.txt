@@ -16,11 +16,12 @@ include(cmake/doctest.cmake)
 
 include_directories(include)
 
+enable_testing()
+
 add_subdirectory(src)
 add_subdirectory(tests)
 add_subdirectory(examples)
 add_subdirectory(benchmark)
 
-enable_testing()
 
 add_custom_target(examples)

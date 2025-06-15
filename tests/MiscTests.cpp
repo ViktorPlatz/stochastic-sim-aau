@@ -1,10 +1,7 @@
 #include <doctest/doctest.h>
-
-#include <ExampleSimulations.hpp>
 #include <iostream>
 #include <ostream>
-
-#include "Simulator.hpp"
+#include "StochasticLib.hpp"
 
 using namespace stochastic;
 
@@ -68,8 +65,9 @@ TEST_CASE("Vessel estimates max timesteps correctly") {
 
   for (int i = 0; i < numRuns; ++i) {
     Simulator simulator(v, i + 1);
-    auto results = simulator.runSingleNoGenerator(endTime);
-    totalSteps += results.size();
+    for (auto&& results : simulator.runSingle(endTime)) {
+      totalSteps += 1;
+    }
   }
 
   double avgSteps = totalSteps / numRuns;

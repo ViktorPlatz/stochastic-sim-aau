@@ -1,7 +1,5 @@
 #include <doctest/doctest.h>
-
-#include "Species.hpp"
-#include "SymbolTable.hpp"
+#include "StochasticLib.hpp"
 
 using namespace stochastic;
 
@@ -12,8 +10,8 @@ TEST_CASE("SymbolTable: add and get") {
   SymbolTable<Species, int> table;
   Species a("A");
 
-  table.add(a, 3.14);
-  CHECK(table.get(a) == doctest::Approx(3.14));
+  table.add(a, 3);
+  CHECK(table.get(a) == 3);
 }
 
 TEST_CASE("SymbolTable: duplicate add throws") {

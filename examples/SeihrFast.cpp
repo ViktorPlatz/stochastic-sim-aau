@@ -2,12 +2,7 @@
 #include <numeric>
 #include <unordered_map>
 #include <vector>
-
-#include "ExampleSimulations.hpp"
-#include "Graph.hpp"
-#include "PlotSimulation.hpp"
-#include "SimulationResult.hpp"
-#include "Simulator.hpp"
+#include "StochasticLib.hpp"
 
 #define NUM_SIMULATIONS 5
 #define END_TIME 100

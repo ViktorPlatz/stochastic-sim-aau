@@ -1,9 +1,7 @@
 #include <doctest/doctest.h>
-
 #include <ostream>
 #include <sstream>
-
-#include "Reaction.hpp"
+#include "StochasticLib.hpp"
 
 using namespace stochastic;
 

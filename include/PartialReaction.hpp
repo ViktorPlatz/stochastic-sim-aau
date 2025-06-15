@@ -1,9 +1,7 @@
 
 #ifndef PARTIALREACTION_HPP
 #define PARTIALREACTION_HPP
-#include "Species.hpp"
 #include "SpeciesCombination.hpp"
-#include "Reaction.hpp"
 
 namespace stochastic {
 

@@ -4,8 +4,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "ExampleSimulations.hpp"
-#include "Graph.hpp"
+#include "StochasticLib.hpp"
 
 using namespace stochastic;
 

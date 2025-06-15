@@ -1,10 +1,5 @@
-#include <PlotSimulation.hpp>
 #include <iostream>
-
-#include "ExampleSimulations.hpp"
-#include "Graph.hpp"
-#include "SimulationResult.hpp"
-#include "Simulator.hpp"
+#include "StochasticLib.hpp"
 
 #define END_TIME 100
 #define N 10'000

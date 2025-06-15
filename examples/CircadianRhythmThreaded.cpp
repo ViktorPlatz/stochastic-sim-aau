@@ -1,13 +1,7 @@
-#include <PlotSimulation.hpp>
 #include <iostream>
 #include <unordered_map>
-#include <unordered_set>
 #include <vector>
-
-#include "ExampleSimulations.hpp"
-#include "Graph.hpp"
-#include "SimulationResult.hpp"
-#include "Simulator.hpp"
+#include "StochasticLib.hpp"
 
 #define END_TIME 48.0
 #define NUM_SIMULATIONS 15

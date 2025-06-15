@@ -1,8 +1,6 @@
 #include <doctest/doctest.h>
-
 #include <sstream>
-
-#include "Species.hpp"
+#include "StochasticLib.hpp"
 
 using namespace stochastic;
 

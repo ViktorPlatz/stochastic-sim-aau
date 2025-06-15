@@ -1,10 +1,5 @@
-#include <PlotSimulation.hpp>
 #include <iostream>
-
-#include "ExampleSimulations.hpp"
-#include "Graph.hpp"
-#include "SimulationResult.hpp"
-#include "Simulator.hpp"
+#include "StochasticLib.hpp"
 
 struct abc_val {
   int a;

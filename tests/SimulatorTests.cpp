@@ -1,16 +1,13 @@
 #include <doctest/doctest.h>
-
-#include <set>
-
-#include "ExampleSimulations.hpp"
-#include "Simulator.hpp"
+#include "StochasticLib.hpp"
 
 using namespace stochastic;
 
 constexpr double END_TIME = 5.0;
 
 TEST_CASE("Simulator::runSingle generates valid trajectory") {
-  Simulator sim(Seihr(100), 42);
+  auto vessel = Seihr(100);
+  Simulator sim(vessel, 42);
   auto gen = sim.runSingle(END_TIME);
 
   int steps = 0;
@@ -25,21 +22,11 @@ TEST_CASE("Simulator::runSingle generates valid trajectory") {
   CHECK(steps > 1);
 }
 
-TEST_CASE("Simulator::runSingleNoGenerator returns full trajectory") {
-  Simulator sim(Seihr(100), 42);
-  auto result = sim.runSingleNoGenerator(END_TIME);
-
-  CHECK_FALSE(result.empty());
-  CHECK(result.front().first == doctest::Approx(0.0));
-  CHECK(result.back().first <=
-        END_TIME + 1);  // We add 1 because some reactions may take longer than
-                        // the end time
-}
-
 TEST_CASE(
     "Simulator::runSimulationsConcurrent yields results for multiple sims") {
+  auto vessel = Seihr(100);
   int numSim = 3;
-  Simulator sim(Seihr(100), 42);
+  Simulator sim(vessel, 42);
   auto gen = sim.runSimulationsConcurrent(END_TIME, numSim);
 
   int timesteps = 0;
@@ -53,8 +40,9 @@ TEST_CASE(
 
 TEST_CASE(
     "Simulator::runSimulationsNoGenerator returns multiple trajectories") {
+  auto vessel = Seihr(100);
   int numSim = 3;
-  Simulator sim(Seihr(100), 42);
+  Simulator sim(vessel, 42);
   auto results = sim.runSimulationsNoGenerator(END_TIME, numSim);
 
   CHECK(results.size() == static_cast<size_t>(numSim));
@@ -71,8 +59,9 @@ TEST_CASE("Simulator::computeDelay returns non-negative value") {
   Simulator sim(v, 123);
   auto r = v.getReactions().front();
   auto state = v.getSymbolTable();
+  auto gen = std::mt19937{123};
 
-  double delay = sim.computeDelay(r, state);
+  double delay = sim.computeDelay(r, state, gen);
   CHECK(delay >= 0.0);
 }
 

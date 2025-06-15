@@ -1,11 +1,6 @@
 #include <doctest/doctest.h>
-
 #include <filesystem>
-#include <fstream>
-
-#include "ExampleSimulations.hpp"
-#include "PlotSimulation.hpp"
-#include "Simulator.hpp"
+#include "StochasticLib.hpp"
 
 using namespace stochastic;
 
@@ -15,7 +10,7 @@ TEST_CASE("plotSimulation generates a plot file") {
   SimulationResult result;
 
   for (auto&& [t, state] : sim.runSingle(1)) {
-    result.add(t, state);
+    result.add(t, *state);
   }
 
   const std::string filename = "test_output/test_plot.png";

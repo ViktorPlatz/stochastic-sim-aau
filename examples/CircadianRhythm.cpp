@@ -1,10 +1,5 @@
-#include <PlotSimulation.hpp>
 #include <iostream>
-
-#include "ExampleSimulations.hpp"
-#include "Graph.hpp"
-#include "SimulationResult.hpp"
-#include "Simulator.hpp"
+#include "StochasticLib.hpp"
 
 int main() {
   auto circadian_rhythm = stochastic::CircadianRhythm();
