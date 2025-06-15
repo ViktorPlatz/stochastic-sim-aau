@@ -9,7 +9,7 @@
 using namespace stochastic;
 //9. Implement unit tests (e.g. test symbol table methods, their failure cases, pretty-printing reaction rules, etc).
 TEST_CASE("Graph::generateDotGraph returns valid DOT format") {
-  auto vessel = Seihr(100);  // Use your SEIHR example
+  auto vessel = Seihr(100);
   std::string dot = Graph::generateDotGraph(vessel);
 
   CHECK(dot.find("digraph {") != std::string::npos);
