@@ -1,4 +1,4 @@
-file(GLOB SOURCES
+set(SOURCES
         Vessel.cpp
         Species.cpp
         Reaction.cpp
@@ -8,9 +8,8 @@ file(GLOB SOURCES
         PlotSimulation.cpp
         SpeciesCombination.cpp
         Graph.cpp
-        ExampleSimulations.cpp
         Utils.cpp
 )
 
 add_library(stochastic_lib STATIC ${SOURCES})
-target_include_directories(stochastic_lib PUBLIC ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(stochastic_lib PRIVATE ${CMAKE_SOURCE_DIR}/include)

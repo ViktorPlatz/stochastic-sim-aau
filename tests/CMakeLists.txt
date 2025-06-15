@@ -5,10 +5,17 @@ function(add_stochastic_test test_name test_file)
     add_test(NAME ${test_name} COMMAND ${test_name})
 endfunction()
 
-add_stochastic_test(ReactionTests ReactionTests.cpp)
-add_stochastic_test(SpeciesTests SpeciesTests.cpp)
-add_stochastic_test(GraphTests GraphTests.cpp)
-add_stochastic_test(PlotSimulationTests PlotSimulationTests.cpp)
-add_stochastic_test(SimulatorTests SimulatorTests.cpp)
-add_stochastic_test(SymbolTableTests SymbolTableTests.cpp)
-add_stochastic_test(MiscTests MiscTests.cpp)
+set(TEST_SOURCES
+        ReactionTests.cpp
+        SpeciesTests.cpp
+        GraphTests.cpp
+        PlotSimulationTests.cpp
+        SimulatorTests.cpp
+        SymbolTableTests.cpp
+        MiscTests.cpp
+)
+
+foreach(test_src ${TEST_SOURCES})
+    get_filename_component(test_name ${test_src} NAME_WE)
+    add_stochastic_test(${test_name} ${test_src})
+endforeach()
