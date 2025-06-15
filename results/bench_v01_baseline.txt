@@ -7,7 +7,6 @@ CPU Caches:
 --------------------------------------------------------------------------------
 Benchmark                                      Time             CPU   Iterations
 --------------------------------------------------------------------------------
-Single Simulation/10000                     17.7 ms         17.7 ms           37
-Concurrent Simulations/10000/5               567 ms          562 ms            1
-Fast Concurrent Simulations/10000/100       2209 ms          953 ms            1
-Fast Single Simulation/10000                53.2 ms         53.1 ms           10
+Single Simulation/10000/100                 1800 ms         1770 ms           37
+Concurrent Simulations/10000/100            5460 ms         5310 ms            2
+Fast Concurrent Simulations/10000/100       2090 ms         891 ms             1

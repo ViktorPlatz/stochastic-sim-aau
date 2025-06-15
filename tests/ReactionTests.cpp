@@ -7,6 +7,7 @@ using namespace stochastic;
 
 // 2. Provide pretty-printing of the reaction network in a) human readable
 // format and b) network graph (e.g. Fig. 4).
+//9. Implement unit tests (e.g. test symbol table methods, their failure cases, pretty-printing reaction rules, etc).
 TEST_CASE("Pretty print format of Reaction") {
   SpeciesCombination input = Species("A") + Species("B");
   SpeciesCombination output = Species("C");

@@ -3,7 +3,7 @@
 
 #define END_TIME 100
 #define N 10'000
-
+//5. Demonstrate the application of the library on the three examples (shown in Fig. 1, 2, 3).
 int main() {
   auto seihr = stochastic::Seihr(N);
   stochastic::Graph::saveDotGraphToFile(seihr, "output/seihr_simulation.dot");

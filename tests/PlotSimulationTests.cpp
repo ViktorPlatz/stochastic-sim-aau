@@ -3,7 +3,7 @@
 #include "StochasticLib.hpp"
 
 using namespace stochastic;
-
+//9. Implement unit tests (e.g. test symbol table methods, their failure cases, pretty-printing reaction rules, etc).
 TEST_CASE("plotSimulation generates a plot file") {
   auto vessel = Seihr(100);
   Simulator sim(vessel);

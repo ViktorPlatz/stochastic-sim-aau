@@ -8,8 +8,9 @@ namespace stochastic {
 
     class SpeciesCombination {
     private:
-		std::vector<Species> speciesList;
-
+        std::vector<Species> speciesList;
+        //1. The library should overload operators to support the reaction rule typesetting directly in C++ code.
+        bool operator==(const Species& other) const;
         friend SpeciesCombination operator+(const Species& lhs, const Species& rhs);
         friend SpeciesCombination operator+(const SpeciesCombination& lhs, const Species& rhs);
         friend SpeciesCombination operator+(const Species& lhs, const SpeciesCombination& rhs);

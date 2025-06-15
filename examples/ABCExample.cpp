@@ -8,7 +8,7 @@ struct abc_val {
 };
 
 int main()
-
+//5. Demonstrate the application of the library on the three examples (shown in Fig. 1, 2, 3).
 {
   std::vector<abc_val> abc_values = {{100, 0, 1}, {100, 0, 2}, {50, 50, 1}};
 

@@ -4,7 +4,7 @@
 using namespace stochastic;
 
 constexpr double END_TIME = 5.0;
-
+//9. Implement unit tests (e.g. test symbol table methods, their failure cases, pretty-printing reaction rules, etc).
 TEST_CASE("Simulator::runSingle generates valid trajectory") {
   auto vessel = Seihr(100);
   Simulator sim(vessel, 42);

@@ -3,7 +3,8 @@
 #include "StochasticLib.hpp"
 
 #define END_TIME 100
-
+/*10. Benchmark and compare the stochastic simulation performance (e.g. the time it takes to compute 100 simulations
+  a single core, multiple cores, or improved implementation). Record the timings and make your conclusions.*/
 static void bench_single_simulation(benchmark::State& state) {
   auto n = state.range(0);
   auto numSimulations = state.range(1);

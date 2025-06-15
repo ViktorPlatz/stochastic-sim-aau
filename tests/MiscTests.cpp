@@ -4,7 +4,7 @@
 #include "StochasticLib.hpp"
 
 using namespace stochastic;
-
+//9. Implement unit tests (e.g. test symbol table methods, their failure cases, pretty-printing reaction rules, etc).
 TEST_CASE("Delayed computation methods produce equivalent results") {
   Vessel vessel = stochastic::abc(50, 50, 50);
   Species x = vessel.add("X", 100);
@@ -20,14 +20,12 @@ TEST_CASE("Delayed computation methods produce equivalent results") {
   std::mt19937 gen1{1};
   std::mt19937 gen2{1};
 
-  // Method 1: push_back
   std::vector<double> delays1;
   delays1.reserve(reactions.size());
   for (const auto& r : reactions) {
     delays1.push_back(simulator.computeDelay(r, state, gen1));
   }
 
-  // Method 2: pre-allocated and indexed assignment
   std::vector<double> delays2(reactions.size());
   for (size_t i = 0; i < reactions.size(); ++i) {
     delays2[i] = simulator.computeDelay(reactions[i], state, gen2);

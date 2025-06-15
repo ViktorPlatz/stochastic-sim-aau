@@ -3,7 +3,7 @@
 #include "StochasticLib.hpp"
 
 using namespace stochastic;
-
+//9. Implement unit tests (e.g. test symbol table methods, their failure cases, pretty-printing reaction rules, etc).
 TEST_CASE("Species constructors and getters") {
   Species s1("H");
   CHECK(s1.getName() == "H");

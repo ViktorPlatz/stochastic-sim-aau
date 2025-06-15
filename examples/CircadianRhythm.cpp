@@ -1,6 +1,6 @@
 #include <iostream>
 #include "StochasticLib.hpp"
-
+//5. Demonstrate the application of the library on the three examples (shown in Fig. 1, 2, 3).
 int main() {
   auto circadian_rhythm = stochastic::CircadianRhythm();
   stochastic::Graph::saveDotGraphToFile(circadian_rhythm,
