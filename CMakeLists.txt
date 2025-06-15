@@ -1,4 +1,3 @@
-
 cmake_minimum_required(VERSION 3.30)
 project(stochastic_sim_aau)
 
@@ -22,6 +21,5 @@ add_subdirectory(src)
 add_subdirectory(tests)
 add_subdirectory(examples)
 add_subdirectory(benchmark)
-
 
 add_custom_target(examples)
