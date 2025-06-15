@@ -7,7 +7,7 @@
 
 namespace stochastic {
 
-    class Reaction; //TODO: fix this circular dependency
+    class Reaction;
 
     class PartialReaction {
         SpeciesCombination input;

@@ -1,5 +1,5 @@
 #include "Reaction.hpp"
-#include <iomanip> //TODO: why do i need this?
+#include <iomanip>
 namespace stochastic {
 
     Reaction operator >>=(const PartialReaction& pr, const SpeciesCombination& output) {

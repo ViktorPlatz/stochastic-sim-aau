@@ -10,7 +10,7 @@
 using namespace stochastic;
 
 TEST_CASE("Graph::generateDotGraph returns valid DOT format") {
-  auto vessel = seihr(100);  // Use your SEIHR example
+  auto vessel = Seihr(100);  // Use your SEIHR example
   std::string dot = Graph::generateDotGraph(vessel);
 
   CHECK(dot.find("digraph {") != std::string::npos);
@@ -21,7 +21,7 @@ TEST_CASE("Graph::generateDotGraph returns valid DOT format") {
 }
 
 TEST_CASE("Graph::saveDotGraphToFile creates file with DOT content") {
-  auto vessel = seihr(100);
+  auto vessel = Seihr(100);
   const std::string testFile = "test_output/graph_test.dot";
 
   std::filesystem::remove(testFile);

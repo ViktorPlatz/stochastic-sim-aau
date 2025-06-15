@@ -15,7 +15,7 @@ Simulator::Simulator(Vessel& vessel, unsigned int seed)
     : vessel(vessel), seed(seed) {}
 
 double Simulator::computeDelay(const Reaction& r,
-                               const SymbolTable<Species, double>& state,
+                               const SymbolTable<Species, int>& state,
                                std::mt19937& gen) {
   double propensity = r.getRateConstant();
 
@@ -30,9 +30,9 @@ double Simulator::computeDelay(const Reaction& r,
 }
 
 void Simulator::react(const Reaction& reaction,
-                      SymbolTable<Species, double>& state) {
+                      SymbolTable<Species, int>& state) {
   if (std::any_of(reaction.getInput().begin(), reaction.getInput().end(),
-                  [&state](const Species& s) { return state.get(s) < 1.0; })) {
+                  [&state](const Species& s) { return state.get(s) == 0; })) {
     return;
   }
 
@@ -44,7 +44,7 @@ void Simulator::react(const Reaction& reaction,
   }
 }
 
-std::generator<timeSeries> Simulator::runSingle(double endTime) {
+std::generator<TimeSeries> Simulator::runSingle(double endTime) {
   thread_local std::mt19937 gen{seed == 0 ? rd() : seed};
 
   auto reactions = vessel.getReactions();
@@ -56,7 +56,7 @@ std::generator<timeSeries> Simulator::runSingle(double endTime) {
   auto currentTime = 0.0;
 
   auto state =
-      std::make_shared<SymbolTable<Species, double>>(vessel.getSymbolTable());
+      std::make_shared<SymbolTable<Species, int>>(vessel.getSymbolTable());
 
   co_yield std::make_pair(currentTime, state);
 
@@ -77,9 +77,9 @@ std::generator<timeSeries> Simulator::runSingle(double endTime) {
   }
 }
 
-std::generator<timeSeriesVector> Simulator::runSimulationsConcurrent(
+std::generator<TimeSeriesVector> Simulator::runSimulationsConcurrent(
     double endTime, int numSimulations) {
-  using Queue = TSQueue<std::optional<timeSeries>>;
+  using Queue = TSQueue<std::optional<TimeSeries>>;
   std::vector<std::shared_ptr<Queue>> queues(numSimulations);
   std::vector<bool> done(numSimulations, false);
 
@@ -87,7 +87,7 @@ std::generator<timeSeriesVector> Simulator::runSimulationsConcurrent(
     for (auto&& step : runSingle(endTime)) {
       q->push(std::make_pair(
           step.first,
-          std::make_shared<SymbolTable<Species, double>>(*step.second)));
+          std::make_shared<SymbolTable<Species, int>>(*step.second)));
     }
     q->push(std::nullopt);
   };
@@ -100,7 +100,7 @@ std::generator<timeSeriesVector> Simulator::runSimulationsConcurrent(
 
   while (true) {
     bool all_finished = true;
-    timeSeriesVector timestep(numSimulations);
+    TimeSeriesVector timestep(numSimulations);
 
     for (int i = 0; i < numSimulations; ++i) {
       if (done[i]) continue;
@@ -122,19 +122,19 @@ std::generator<timeSeriesVector> Simulator::runSimulationsConcurrent(
   }
 }
 
-std::vector<std::vector<timeSeries>> Simulator::runSimulationsNoGenerator(
+std::vector<std::vector<TimeSeries>> Simulator::runSimulationsNoGenerator(
     double endTime, int numSimulations) {
-  std::vector<std::vector<timeSeries>> results(numSimulations);
+  std::vector<std::vector<TimeSeries>> results(numSimulations);
 
   auto job = [this, endTime]() {
-    std::vector<timeSeries> result;
+    std::vector<TimeSeries> result;
     for (auto&& step : runSingle(endTime)) {
       result.push_back(step);
     }
     return result;
   };
 
-  std::vector<std::future<std::vector<timeSeries>>> futures;
+  std::vector<std::future<std::vector<TimeSeries>>> futures;
   futures.reserve(numSimulations);
 
   for (int i = 0; i < numSimulations; ++i) {

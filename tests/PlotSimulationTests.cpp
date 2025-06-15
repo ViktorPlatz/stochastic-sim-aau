@@ -10,7 +10,7 @@
 using namespace stochastic;
 
 TEST_CASE("plotSimulation generates a plot file") {
-  auto vessel = seihr(100);
+  auto vessel = Seihr(100);
   Simulator sim(vessel);
   SimulationResult result;
 
@@ -29,7 +29,7 @@ TEST_CASE("plotSimulation generates a plot file") {
 }
 
 TEST_CASE("plotSimulation throws on empty trajectory") {
-  auto vessel = seihr(100);
+  auto vessel = Seihr(100);
   SimulationResult result;
   const std::string filename = "test_output/empty_plot.png";
   std::unordered_set<Species> excluded;

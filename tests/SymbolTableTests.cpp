@@ -9,7 +9,7 @@ using namespace stochastic;
 // pretty-printing reaction rules, etc).
 
 TEST_CASE("SymbolTable: add and get") {
-  SymbolTable<Species, double> table;
+  SymbolTable<Species, int> table;
   Species a("A");
 
   table.add(a, 3.14);
@@ -17,7 +17,7 @@ TEST_CASE("SymbolTable: add and get") {
 }
 
 TEST_CASE("SymbolTable: duplicate add throws") {
-  SymbolTable<Species, double> table;
+  SymbolTable<Species, int> table;
   Species a("A");
 
   table.add(a, 2.0);
@@ -25,14 +25,14 @@ TEST_CASE("SymbolTable: duplicate add throws") {
 }
 
 TEST_CASE("SymbolTable: get missing key throws") {
-  SymbolTable<Species, double> table;
+  SymbolTable<Species, int> table;
   Species a("A");
 
   CHECK_THROWS_AS(table.get(a), std::runtime_error);
 }
 
 TEST_CASE("SymbolTable: contains works") {
-  SymbolTable<Species, double> table;
+  SymbolTable<Species, int> table;
   Species a("A"), b("B");
 
   table.add(a, 1.0);
@@ -41,7 +41,7 @@ TEST_CASE("SymbolTable: contains works") {
 }
 
 TEST_CASE("SymbolTable: getAllKeys returns correct keys") {
-  SymbolTable<Species, double> table;
+  SymbolTable<Species, int> table;
   Species a("A"), b("B");
 
   table.add(a, 1.0);
@@ -56,7 +56,7 @@ TEST_CASE("SymbolTable: getAllKeys returns correct keys") {
 }
 
 TEST_CASE("SymbolTable: getAll returns key-value pairs") {
-  SymbolTable<Species, double> table;
+  SymbolTable<Species, int> table;
   Species a("A"), b("B");
 
   table.add(a, 1.0);
@@ -65,7 +65,7 @@ TEST_CASE("SymbolTable: getAll returns key-value pairs") {
   auto all = table.getAll();
   CHECK(all.size() == 2);
 
-  std::unordered_map<std::string, double> map;
+  std::unordered_map<std::string, int> map;
   for (const auto& [s, v] : all) {
     map[s.getName()] = v;
   }

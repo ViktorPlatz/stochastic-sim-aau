@@ -7,7 +7,7 @@
 #include "Simulator.hpp"
 
 int main() {
-  auto circadian_rhythm = stochastic::circadian_rhythm();
+  auto circadian_rhythm = stochastic::CircadianRhythm();
   stochastic::Graph::saveDotGraphToFile(circadian_rhythm,
                                         "output/circadian_simulation.dot");
 

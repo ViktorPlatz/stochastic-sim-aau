@@ -10,19 +10,19 @@
 
 namespace stochastic {
 
-using timeSeries =
-    std::pair<double, std::shared_ptr<SymbolTable<Species, double>>>;
+using TimeSeries =
+    std::pair<double, std::shared_ptr<SymbolTable<Species, int>>>;
 
 class SimulationResult {
  private:
-  std::vector<timeSeries> trajectory;
+  std::vector<TimeSeries> trajectory;
 
  public:
-  void add(double time, const SymbolTable<Species, double>& state);
-  std::vector<timeSeries>& getTrajectory();
-  std::vector<double> getSpeciesCounts(const Species& s) const;
+  void add(double time, const SymbolTable<Species, int>& state);
+  std::vector<TimeSeries>& getTrajectory();
+  std::vector<int> getSpeciesCounts(const Species& s) const;
   std::vector<double> getTimePoints() const;
-  SymbolTable<Species, double> getFinalState() const;
+  SymbolTable<Species, int> getFinalState() const;
 };
 
 }  // namespace stochastic

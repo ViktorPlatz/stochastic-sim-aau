@@ -14,7 +14,7 @@ static void bench_single_simulation(benchmark::State& state) {
 
   for (auto _ : state) {
     for (int i = 0; i < numSimulations; ++i) {
-      auto vessel = stochastic::seihr(n);
+      auto vessel = stochastic::Seihr(n);
       stochastic::Simulator simulation(vessel, 1);
 
       auto gen = simulation.runSingle(END_TIME);
@@ -29,7 +29,7 @@ static void bench_concurrent_simulations(benchmark::State& state) {
   auto n = state.range(0);
   auto numSimulations = state.range(1);
 
-  auto vessel = stochastic::seihr(n);
+  auto vessel = stochastic::Seihr(n);
   stochastic::Simulator simulation(vessel, 1);
   std::vector<stochastic::SimulationResult> simResults(numSimulations);
 
@@ -51,7 +51,7 @@ static void bench_no_generator_simulations(benchmark::State& state) {
   auto n = state.range(0);
   auto numSimulations = state.range(1);
 
-  auto vessel = stochastic::seihr(n);
+  auto vessel = stochastic::Seihr(n);
   stochastic::Simulator simulation(vessel, 1);
 
   for (auto _ : state) {

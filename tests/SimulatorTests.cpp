@@ -10,7 +10,7 @@ using namespace stochastic;
 constexpr double END_TIME = 5.0;
 
 TEST_CASE("Simulator::runSingle generates valid trajectory") {
-  Simulator sim(seihr(100), 42);
+  Simulator sim(Seihr(100), 42);
   auto gen = sim.runSingle(END_TIME);
 
   int steps = 0;
@@ -26,7 +26,7 @@ TEST_CASE("Simulator::runSingle generates valid trajectory") {
 }
 
 TEST_CASE("Simulator::runSingleNoGenerator returns full trajectory") {
-  Simulator sim(seihr(100), 42);
+  Simulator sim(Seihr(100), 42);
   auto result = sim.runSingleNoGenerator(END_TIME);
 
   CHECK_FALSE(result.empty());
@@ -39,7 +39,7 @@ TEST_CASE("Simulator::runSingleNoGenerator returns full trajectory") {
 TEST_CASE(
     "Simulator::runSimulationsConcurrent yields results for multiple sims") {
   int numSim = 3;
-  Simulator sim(seihr(100), 42);
+  Simulator sim(Seihr(100), 42);
   auto gen = sim.runSimulationsConcurrent(END_TIME, numSim);
 
   int timesteps = 0;
@@ -54,7 +54,7 @@ TEST_CASE(
 TEST_CASE(
     "Simulator::runSimulationsNoGenerator returns multiple trajectories") {
   int numSim = 3;
-  Simulator sim(seihr(100), 42);
+  Simulator sim(Seihr(100), 42);
   auto results = sim.runSimulationsNoGenerator(END_TIME, numSim);
 
   CHECK(results.size() == static_cast<size_t>(numSim));

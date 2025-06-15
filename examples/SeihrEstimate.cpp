@@ -11,7 +11,7 @@
 
 double compute_peak_hospitalized(int population, double end_time,
                                  unsigned int seed = 0) {
-  auto seihr_model = stochastic::seihr(population);
+  auto seihr_model = stochastic::Seihr(population);
   auto simulator = stochastic::Simulator(seihr_model, seed);
   const auto H = stochastic::Species("H");
 

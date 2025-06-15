@@ -10,7 +10,7 @@
 #define N 10'000
 
 int main() {
-  auto seihr = stochastic::seihr(N);
+  auto seihr = stochastic::Seihr(N);
   stochastic::Graph::saveDotGraphToFile(seihr, "output/seihr_simulation.dot");
   auto simulation = stochastic::Simulator(seihr, 1);
   stochastic::SimulationResult result;
@@ -23,8 +23,8 @@ int main() {
     result.add(timeseries.first, *timeseries.second);
   }
 
-  // multiply the H species by 1000 to see results more clearly
-  auto multiplyH = [](stochastic::timeSeries& ts) {
+  // Multiply the H species by 1000 to see results more clearly
+  auto multiplyH = [](stochastic::TimeSeries& ts) {
     ts.second->get(stochastic::Species("H")) *= 1000;
   };
   std::for_each(result.getTrajectory().begin(), result.getTrajectory().end(),

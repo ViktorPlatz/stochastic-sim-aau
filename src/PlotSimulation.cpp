@@ -20,7 +20,7 @@ namespace stochastic {
         auto speciesMap = vessel.getSymbolTable();
 
         for (const auto& species : vessel.getSpecies()) {
-            std::vector<double> values = simulationResult.getSpeciesCounts(species);
+            std::vector<int> values = simulationResult.getSpeciesCounts(species);
 
             if (excludedSpecies.count(species) > 0) {
                 continue;

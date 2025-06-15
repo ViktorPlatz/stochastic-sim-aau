@@ -4,7 +4,7 @@
 
 namespace stochastic {
 
-    const Species Vessel::add(const std::string& name, double count) {
+    const Species Vessel::add(const std::string& name, int count) {
         Species _species{name};
         species.add(_species, count);
         return _species;
@@ -19,7 +19,7 @@ namespace stochastic {
         reactions.push_back(reaction);
     }
 
-    const Species Vessel::environment() { // TODO: Check if this is correct
+    const Species Vessel::environment() {
         Species env{"env"};
         if (!species.contains(env)) {
             species.add(env, 0);
@@ -43,7 +43,7 @@ namespace stochastic {
         return names;
     }
 
-    const SymbolTable<Species, double> Vessel::getSymbolTable() const {
+    const SymbolTable<Species, int> Vessel::getSymbolTable() const {
         return species;
     }
 
