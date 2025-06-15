@@ -1,33 +1,36 @@
-#include <iostream>
 #include <PlotSimulation.hpp>
-
-#include "SimulationResult.hpp"
+#include <iostream>
 
 #include "ExampleSimulations.hpp"
 #include "Graph.hpp"
+#include "SimulationResult.hpp"
 #include "Simulator.hpp"
 
 #define END_TIME 100
 #define N 10'000
 
 int main() {
-    auto seihr = stochastic::seihr(N);
-    stochastic::Graph::saveDotGraphToFile(seihr, "output/seihr_simulation.dot");
-    auto simulation = stochastic::Simulator(seihr, 1);
-    stochastic::SimulationResult result;
+  auto seihr = stochastic::seihr(N);
+  stochastic::Graph::saveDotGraphToFile(seihr, "output/seihr_simulation.dot");
+  auto simulation = stochastic::Simulator(seihr, 1);
+  stochastic::SimulationResult result;
 
-    std::cout << "Starting simulation with " << seihr.getSpecies().size() << " species and "
-              << seihr.getReactions().size() << " reactions." << std::endl;
+  std::cout << "Starting simulation with " << seihr.getSpecies().size()
+            << " species and " << seihr.getReactions().size() << " reactions."
+            << std::endl;
 
-    for (auto timeseries : simulation.runSingle(END_TIME)) {
-        result.add(timeseries.first, *timeseries.second);
-    }
+  for (auto timeseries : simulation.runSingle(END_TIME)) {
+    result.add(timeseries.first, *timeseries.second);
+  }
 
-    //multiply the H species by 1000 to see results more clearly
-    auto multiplyH = [](stochastic::timeSeries& ts) {ts.second->get(stochastic::Species("H")) *= 1000;};
-    std::for_each(result.getTrajectory().begin(), result.getTrajectory().end(), multiplyH);
+  // multiply the H species by 1000 to see results more clearly
+  auto multiplyH = [](stochastic::timeSeries& ts) {
+    ts.second->get(stochastic::Species("H")) *= 1000;
+  };
+  std::for_each(result.getTrajectory().begin(), result.getTrajectory().end(),
+                multiplyH);
 
-    std::cout << "Simulation completed. Plotting results." << std::endl;
-    stochastic::plotSimulation(seihr, result, "output/seihr_simulation.png", "Stochastic Simulation of SEIHR Model");
-
+  std::cout << "Simulation completed. Plotting results." << std::endl;
+  stochastic::plotSimulation(seihr, result, "output/seihr_simulation.png",
+                             "Stochastic Simulation of SEIHR Model");
 }
