@@ -7,7 +7,7 @@
 namespace stochastic {
 
     void SimulationResult::add(double time, const SymbolTable<Species, double>& state) {
-        trajectory.emplace_back(time, state);
+        trajectory.emplace_back(time, std::make_shared<SymbolTable<Species, double>>(state));
     }
 
     std::vector<timeSeries>& SimulationResult::getTrajectory() {
@@ -18,7 +18,7 @@ namespace stochastic {
         std::vector<double> values;
         values.reserve(trajectory.size());
         for (const auto& [_, state] : trajectory) {
-            values.push_back(state.get(s));
+            values.push_back(state->get(s));
         }
         return values;
     }
@@ -36,7 +36,7 @@ namespace stochastic {
         if (trajectory.empty()) {
             throw std::runtime_error("No trajectory data available.");
         }
-        return trajectory.back().second;
+        return *trajectory.back().second;
     }
 
 }

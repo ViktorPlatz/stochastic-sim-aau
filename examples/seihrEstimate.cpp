@@ -15,7 +15,7 @@ double compute_peak_hospitalized(int population, double end_time, unsigned int s
 
     double peakH = 0;
     for (const auto& [t, state] : simulator.runSingle(end_time)) {
-        peakH = std::max(peakH, static_cast<double>(state.get(H)));
+        peakH = std::max(peakH, static_cast<double>(state->get(H)));
     }
     return peakH;
 }

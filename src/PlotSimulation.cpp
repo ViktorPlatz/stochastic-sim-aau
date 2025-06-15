@@ -17,12 +17,12 @@ namespace stochastic {
 
         std::vector<double> timePoints = simulationResult.getTimePoints();
 
-        auto speciesMap = vessel.getSpeciesWithValues();
+        auto speciesMap = vessel.getSymbolTable();
 
         for (const auto& species : vessel.getSpecies()) {
             std::vector<double> values = simulationResult.getSpeciesCounts(species);
 
-            if (excludedSpecies.count(species.getName()) > 0) {
+            if (excludedSpecies.count(species) > 0) {
                 continue;
             }
 

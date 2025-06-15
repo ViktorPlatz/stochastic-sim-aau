@@ -1,6 +1,7 @@
 #ifndef SIMULATIONRESULT_HPP
 #define SIMULATIONRESULT_HPP
 
+#include <memory>
 #include <vector>
 #include <utility>
 #include "Species.hpp"
@@ -8,7 +9,7 @@
 
 namespace stochastic {
 
-    using timeSeries = std::pair<double, SymbolTable<Species, double>>;
+    using timeSeries = std::pair<double, std::shared_ptr<SymbolTable<Species, double>>>;
 
     class SimulationResult {
     private:

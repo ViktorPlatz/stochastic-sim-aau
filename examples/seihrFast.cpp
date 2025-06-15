@@ -9,8 +9,8 @@
 #include "Graph.hpp"
 #include "Simulator.hpp"
 
-#define END_TIME 24
 #define NUM_SIMULATIONS 5
+#define END_TIME 100
 #define N 10000
 
 int main() {
@@ -23,17 +23,18 @@ int main() {
               << "population size N = " << N << ", "
               << "and end time = " << END_TIME << "." << std::endl;
 
-    stochastic::Simulator simulation(seihr);
-    auto allResults = simulation.runSimulationsNoGenerator(END_TIME, NUM_SIMULATIONS);
-
+    stochastic::Simulator simulation(seihr, 0);
     std::vector<stochastic::SimulationResult> simResults(NUM_SIMULATIONS);
     std::vector<double> h_values;
     stochastic::Species h_species = stochastic::Species{"H"};
 
-    for (std::size_t i = 0; i < allResults.size(); ++i) {
-        for (const auto& [time, state] : allResults[i]) {
-            simResults[i].add(time, state);
-            h_values.push_back(state.get(h_species));
+    for (auto timestepVector : simulation.runSimulationsConcurrent(END_TIME, NUM_SIMULATIONS)) {
+        for (std::size_t i = 0; i < timestepVector.size(); ++i) {
+            if (timestepVector[i]) {
+                auto [time, statePtr] = *timestepVector[i];
+                simResults[i].add(time, *statePtr);
+                h_values.push_back(statePtr->get(h_species));
+            }
         }
     }
 
@@ -41,7 +42,6 @@ int main() {
     std::cout << "Average H value: " << h_average << '\n';
 
     std::unordered_map<std::string, double> avgCounts;
-
     for (const auto &species : seihr.getSpecies()) {
         double total = 0.0;
         for (const auto &result : simResults) {
@@ -52,9 +52,21 @@ int main() {
 
     std::cout << "\nAverage species counts at t = " << END_TIME << " (" << NUM_SIMULATIONS
               << " runs):\n";
-
     for (const auto &[name, avg] : avgCounts) {
         std::cout << "  " << name << ": " << avg << '\n';
+    }
+
+    for (auto& result : simResults) {
+        for (auto& [time, state] : result.getTrajectory()) {
+            state->get(h_species) *= 1000;
+        }
+    }
+
+    for (std::size_t i = 0; i < simResults.size(); ++i) {
+        std::string filename = "output/MT_seihr_simulation_" + std::to_string(i + 1) + ".png";
+        std::string title = "SEIHR Simulation Run " + std::to_string(i + 1);
+        std::cout << "Plotting simulation " << i + 1 << "...\n";
+        stochastic::plotSimulation(seihr, simResults[i], filename, title, {});
     }
 
     return 0;

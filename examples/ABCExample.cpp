@@ -27,7 +27,7 @@ int main()
 
         stochastic::SimulationResult result;
         for (auto timeseries : sim.runSingle(2000)) {
-            result.add(timeseries.first, timeseries.second);
+            result.add(timeseries.first, *timeseries.second);
         }
 
         std::string fileNum = std::to_string(i + 1);

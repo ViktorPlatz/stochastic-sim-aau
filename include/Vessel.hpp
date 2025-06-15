@@ -17,8 +17,10 @@ namespace stochastic {
         const Species environment();
         const std::vector<Reaction> getReactions() const;
         const std::vector<Species> getSpecies() const;
-        const SymbolTable<Species, double> getSpeciesWithValues() const; // TODO: Fix these functions
+        const SymbolTable<Species, double> getSymbolTable() const; // TODO: Fix these functions
         std::vector<std::string> getSpeciesNames() const;
+        double estimateMaxTimesteps(double endTime) const;
+
     };
 
 }

@@ -7,21 +7,24 @@
 #include "Graph.hpp"
 #include "Simulator.hpp"
 
+#define END_TIME 100
+#define N 10'000
+
 int main() {
-    auto seihr = stochastic::seihr(10000);
+    auto seihr = stochastic::seihr(N);
     stochastic::Graph::saveDotGraphToFile(seihr, "output/seihr_simulation.dot");
-    auto simulation = stochastic::Simulator(seihr, 0);
+    auto simulation = stochastic::Simulator(seihr, 1);
     stochastic::SimulationResult result;
 
     std::cout << "Starting simulation with " << seihr.getSpecies().size() << " species and "
               << seihr.getReactions().size() << " reactions." << std::endl;
 
-    for (auto timeseries : simulation.runSingle(1000)) {
-        result.add(timeseries.first, timeseries.second);
+    for (auto timeseries : simulation.runSingle(END_TIME)) {
+        result.add(timeseries.first, *timeseries.second);
     }
 
     //multiply the H species by 1000 to see results more clearly
-    auto multiplyH = [](stochastic::timeSeries& ts) {ts.second.get(stochastic::Species("H")) *= 1000;};
+    auto multiplyH = [](stochastic::timeSeries& ts) {ts.second->get(stochastic::Species("H")) *= 1000;};
     std::for_each(result.getTrajectory().begin(), result.getTrajectory().end(), multiplyH);
 
     std::cout << "Simulation completed. Plotting results." << std::endl;

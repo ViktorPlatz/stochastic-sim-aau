@@ -43,7 +43,30 @@ namespace stochastic {
         return names;
     }
 
-    const SymbolTable<Species, double> Vessel::getSpeciesWithValues() const {
+    const SymbolTable<Species, double> Vessel::getSymbolTable() const {
         return species;
+    }
+
+    double Vessel::estimateMaxTimesteps(double endTime) const {
+        auto reactions = getReactions();
+        if (reactions.empty()) return 1.0;
+
+        double minDelay = std::numeric_limits<double>::infinity();
+
+        for (const auto& r : reactions) {
+            double propensity = r.getRateConstant();
+            for (const auto& s : r.getInput()) {
+                propensity *= 1.0;
+            }
+            if (propensity > 0.0) {
+                double expectedDelay = 1.0 / propensity;
+                minDelay = std::min(minDelay, expectedDelay);
+            }
+        }
+
+        if (!std::isfinite(minDelay) || minDelay <= 0.0)
+            return 1.0;
+
+        return endTime / minDelay;
     }
 }

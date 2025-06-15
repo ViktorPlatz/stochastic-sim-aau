@@ -37,8 +37,8 @@ int main() {
         for (std::size_t i = 0; i < timestepGroup.size(); ++i) {
             if (timestepGroup[i].has_value()) {
                 const auto &[time, state] = *timestepGroup[i];
-                simResults[i].add(time, state);
-                h_values.push_back(state.get(h_species));
+                simResults[i].add(time, *state);
+                h_values.push_back(state->get(h_species));
             }
         }
     }

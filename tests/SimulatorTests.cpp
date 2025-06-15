@@ -64,7 +64,7 @@ TEST_CASE("Simulator::computeDelay returns non-negative value") {
 
     Simulator sim(v, 123);
     auto r = v.getReactions().front();
-    auto state = v.getSpeciesWithValues();
+    auto state = v.getSymbolTable();
 
     double delay = sim.computeDelay(r, state);
     CHECK(delay >= 0.0);
@@ -78,7 +78,7 @@ TEST_CASE("Simulator::react updates species state correctly") {
 
     Simulator sim(v);
     auto r = v.getReactions().front();
-    auto state = v.getSpeciesWithValues();
+    auto state = v.getSymbolTable();
 
     double beforeA = state.get(A);
     double beforeB = state.get(B);

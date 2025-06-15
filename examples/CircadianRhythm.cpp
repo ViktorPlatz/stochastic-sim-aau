@@ -17,7 +17,7 @@ int main() {
               << circadian_rhythm.getReactions().size() << " reactions." << std::endl;
 
     for (auto timeseries : simulation.runSingle(48.0)) {
-        result.add(timeseries.first, timeseries.second);
+        result.add(timeseries.first, *timeseries.second);
     }
 
     std::unordered_set<stochastic::Species> exclude = {circadian_rhythm.environment()};

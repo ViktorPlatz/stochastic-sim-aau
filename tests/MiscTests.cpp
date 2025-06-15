@@ -16,7 +16,7 @@ TEST_CASE("Delayed computation methods produce equivalent results") {
     Simulator simulator(vessel, 1);
 
     auto reactions = vessel.getReactions();
-    auto state = vessel.getSpeciesWithValues();
+    auto state = vessel.getSymbolTable();
 
     std::mt19937 gen1{1};
     std::mt19937 gen2{1};
@@ -43,4 +43,35 @@ TEST_CASE("Delayed computation methods produce equivalent results") {
             REQUIRE(std::abs(delays1[i] - delays2[i]) < 1e-6);
         }
     }
+}
+
+TEST_CASE("Vessel estimates max timesteps correctly") {
+    Species A("A");
+
+    Reaction r = A >> 2.0 >>= A;
+
+    Vessel v;
+    v.add("A", 1.0);
+    v.add(r);
+
+    double endTime = 10.0;
+    double estimatedSteps = v.estimateMaxTimesteps(endTime);
+    std::cout << "Estimated steps: " << estimatedSteps << std::endl;
+
+    CHECK(estimatedSteps == doctest::Approx(20.0).epsilon(0.001));
+
+    int numRuns = 100;
+    double totalSteps = 0.0;
+
+    for (int i = 0; i < numRuns; ++i) {
+        Simulator simulator(v, i + 1);
+        auto results = simulator.runSingleNoGenerator(endTime);
+        totalSteps += results.size();
+    }
+
+    double avgSteps = totalSteps / numRuns;
+    std::cout << "Average actual steps: " << avgSteps << std::endl;
+
+    // Allow 15% tolerance due to randomness
+    CHECK(avgSteps == doctest::Approx(estimatedSteps).epsilon(0.15));
 }

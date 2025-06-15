@@ -10,24 +10,23 @@
 namespace stochastic {
 
 
-    Simulator::Simulator(const Vessel& vessel, unsigned int seed)
+    Simulator::Simulator(Vessel& vessel, unsigned int seed)
         : vessel(vessel), seed(seed) {}
 
-    double Simulator::computeDelay(const Reaction& reaction, const SymbolTable<Species, double>& state) {
-    	thread_local std::mt19937 gen{seed == 0 ? rd() : seed};
+    double Simulator::computeDelay(const Reaction& r, const SymbolTable<Species,double>& state, std::mt19937& gen)
+    {
+        double propensity = r.getRateConstant();
 
-  		std::vector<double> values;
-    	values.reserve(reaction.getInput().size());
+        for (const auto& s : r.getInput())
+            propensity *= state.get(s);
 
-        for (const auto& species : reaction.getInput()) {
-            values.push_back(state.get(species));
+        if (propensity <= 0.0) {
+            return std::numeric_limits<double>::infinity();
         }
 
-        double product = std::accumulate(values.begin(), values.end(), 1.0, std::multiplies<double>());
-
-        std::exponential_distribution<double> dist(reaction.getRateConstant() * product);
+        std::exponential_distribution<double> dist(propensity);
         return dist(gen);
-	}
+    }
 
     void Simulator::react(const Reaction& reaction, SymbolTable<Species, double>& state){
         if (std::any_of(reaction.getInput().begin(), reaction.getInput().end(),
@@ -45,6 +44,8 @@ namespace stochastic {
 
     std::generator<timeSeries> Simulator::runSingle(double endTime) {
 
+        thread_local std::mt19937 gen{seed == 0 ? rd() : seed};
+
         auto reactions = vessel.getReactions();
 
         if (reactions.empty()) {
@@ -53,16 +54,15 @@ namespace stochastic {
 
         auto currentTime = 0.0;
 
-        SymbolTable<Species, double> state = vessel.getSpeciesWithValues();
+        auto state = std::make_shared<SymbolTable<Species, double>>(vessel.getSymbolTable());
 
         co_yield std::make_pair(currentTime, state);
 
-        while (currentTime <= endTime) {
-            std::vector<double> delays;
-            delays.reserve(reactions.size());
+        std::vector<double> delays(reactions.size());
 
-            for (const auto& r : reactions) {
-                delays.push_back(computeDelay(r, state));
+        while (currentTime <= endTime) {
+            for (size_t i = 0; i < reactions.size(); ++i) {
+                delays[i] = computeDelay(reactions[i], *state, gen);
             }
 
             auto minDelayIt = std::min_element(delays.begin(), delays.end());
@@ -70,44 +70,9 @@ namespace stochastic {
             auto i = std::distance(delays.begin(), minDelayIt);
             currentTime += *minDelayIt;
 
-            react(reactions[i], state);
+            react(reactions[i], *state);
             co_yield std::make_pair(currentTime, state);
         }
-    }
-
-    std::vector<timeSeries> Simulator::runSingleNoGenerator(double endTime) {
-        std::vector<timeSeries> result;
-
-        auto reactions = vessel.getReactions();
-
-        if (reactions.empty()) {
-            throw std::runtime_error("No reactions defined in the vessel.");
-        }
-
-        auto currentTime = 0.0;
-
-        SymbolTable<Species, double> state = vessel.getSpeciesWithValues();
-
-        result.emplace_back(currentTime, state);
-
-        while (currentTime <= endTime) {
-            std::vector<double> delays;
-            delays.reserve(reactions.size());
-
-            for (const auto& r : reactions) {
-                delays.push_back(computeDelay(r, state));
-            }
-
-            auto minDelayIt = std::min_element(delays.begin(), delays.end());
-
-            auto i = std::distance(delays.begin(), minDelayIt);
-            currentTime += *minDelayIt;
-
-            react(reactions[i], state);
-            result.emplace_back(currentTime, state);
-        }
-
-        return result;
     }
 
     std::generator<timeSeriesVector> Simulator::runSimulationsConcurrent(double endTime, int numSimulations) {
@@ -117,7 +82,7 @@ namespace stochastic {
 
         auto simulationJob = [this, endTime](std::shared_ptr<Queue> q) {
             for (auto&& step : runSingle(endTime)) {
-                q->push(step);
+                q->push(std::make_pair(step.first, std::make_shared<SymbolTable<Species, double>>(*step.second)));
             }
             q->push(std::nullopt);
         };
