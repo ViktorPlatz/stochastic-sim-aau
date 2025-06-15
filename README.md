@@ -31,7 +31,7 @@ This project was developed to meet the following objectives defined in the *Sele
 - ✅ Pretty-printing of reaction networks (human-readable and `.dot` graph format)
 - ✅ Generic symbol table with support for error handling (missing or duplicate keys)
 - ✅ Stochastic simulation based on [Gillespie’s algorithm](https://en.wikipedia.org/wiki/Gillespie_algorithm)
-- ✅ Three example models (including Covid-19 [SEIHR Model](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8675552/).)
+- ✅ Three example models (including Covid-19 [SEIHR Model](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8675552/))
 - ✅ Visualization of simulation trajectories using external tools (matplotlibcpp)
 - ✅ Generic support for a lazy trajectory generation interface
 - ✅ Multi-core parallel simulation support
